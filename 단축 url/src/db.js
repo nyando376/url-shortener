@@ -1,19 +1,9 @@
 import mysql from 'mysql2/promise';
 
-const {
-  DATABASE_URL,
-  MYSQLHOST,
-  MYSQLPORT,
-  MYSQLUSER,
-  MYSQLPASSWORD,
-  MYSQLDATABASE,
-} = process.env;
-
-let poolConfig;
-
-if (DATABASE_URL) {
-  const u = new URL(DATABASE_URL);
-  poolConfig = {
+let cfg;
+if (process.env.DATABASE_URL) {
+  const u = new URL(process.env.DATABASE_URL);
+  cfg = {
     host: u.hostname,
     port: Number(u.port || 3306),
     user: decodeURIComponent(u.username),
@@ -23,15 +13,16 @@ if (DATABASE_URL) {
     connectionLimit: 10,
   };
 } else {
-  poolConfig = {
-    host: MYSQLHOST || 'localhost',
-    port: Number(MYSQLPORT || 3306),
-    user: MYSQLUSER || 'root',
-    password: MYSQLPASSWORD || '',
-    database: MYSQLDATABASE || 'railway',
+  cfg = {
+    host: process.env.MYSQLHOST,
+    port: Number(process.env.MYSQLPORT || 3306),
+    user: process.env.MYSQLUSER,
+    password: process.env.MYSQLPASSWORD,
+    database: process.env.MYSQLDATABASE,
     waitForConnections: true,
     connectionLimit: 10,
   };
 }
 
-export const pool = await mysql.createPool(poolConfig);
+export const pool = await mysql.createPool(cfg);
+console.log('[DB] pool created ->', cfg.host + ':' + cfg.port + '/' + cfg.database);
