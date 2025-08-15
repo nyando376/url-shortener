@@ -1,6 +1,6 @@
 {
   "name": "url-shortener",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "main": "server.js",
   "scripts": {
@@ -8,11 +8,8 @@
     "dev": "node --watch server.js"
   },
   "dependencies": {
-    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "helmet": "^7.1.0",
-    "mysql2": "^3.11.0",
-    "nanoid": "^5.0.7"
+    "mysql2": "^3.11.0"
   }
 }
